@@ -15,13 +15,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
+import Cookies from 'js-cookie';
 // reactstrap components
 import {
   Button,
@@ -47,10 +48,34 @@ import {
 } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
+import axios from "axios";
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  const [user, setUser] = useState({});
+
+
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
+  async function getUser() {
+    let result = await axios.get('https://cims-server.herokuapp.com/auth/user', {
+      headers: {
+        'Content-Type': 'Application/json'
+      },
+      withCredentials: true
+    });
+    setUser(result.data);
+
+    // console.log(result.data);
+
+
+  }
+
+
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -61,9 +86,14 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data("data" + index);
   };
+
+
+
+
+
   return (
     <>
-      <Header />
+      <Header name={user['name']} />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>
@@ -87,7 +117,7 @@ const Index = (props) => {
                           href="#pablo"
                           onClick={(e) => toggleNavs(e, 1)}
                         >
-                          <span className="d-none d-md-block">Month</span>
+                          <span className="d-none d-md-block" >Month</span>
                           <span className="d-md-none">M</span>
                         </NavLink>
                       </NavItem>

@@ -103,6 +103,9 @@ const Profile = () => {
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
+
+                      <th scope="col"></th>
+
                       <th scope="col">name</th>
                       <th scope="col">lastName</th>
                       <th scope="col">email</th>
@@ -119,18 +122,25 @@ const Profile = () => {
                       formers.map((former) => {
                         let id = former['_id'];
                         return <tr key={former['id']}>
-                          <th scope="row">
-                            <Media className="align-items-center">
+                          <Media className="align-items-center">
+                            <a
+                              className="avatar rounded-circle mr-3"
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <img
+                                alt="..."
+                                src={
+                                  former.image
+                                }
+                              />
+                            </a>
 
-                              <Media>
-                                <span className="mb-0 text-sm">
-                                  {former.name}
-                                </span>
-                              </Media>
-                            </Media>
-                          </th>
+                          </Media>
 
-
+                          <td>
+                            {former.name}
+                          </td>
                           <td>{former["lastName"]}  </td>
                           <td>{former["email"]}  </td>
 

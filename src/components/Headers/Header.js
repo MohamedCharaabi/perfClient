@@ -15,14 +15,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import AdminNavbar from "components/Navbars/AdminNavbar";
 import React from "react";
 
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <>
+      {window.location.pathname === '/admin/index' ? <AdminNavbar name={props.name} /> : null}
+
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
           <div className="header-body">

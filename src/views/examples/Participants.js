@@ -18,6 +18,7 @@
 import React, { useEffect, useState } from "react";
 // core components
 import Header from "components/Headers/Header.js";
+import fs from 'fs'
 
 // reactstrap components
 import {
@@ -43,11 +44,12 @@ import {
   Button,
 
 } from "reactstrap";
-
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-import GenerateCertif from "components/PrintCertificate/GenerateCertificates";
+import certif from '../../assets/certificate.png';
+import jsPDF from "jspdf";
+import('jspdf-autotable');
 
 
 
@@ -79,10 +81,31 @@ const Maps = () => {
     } catch (error) {
       alert(`Error while deleting:\n ${error.message}`);
     }
+  }
 
+  function generateCertif(name, date, theme) {
+
+
+
+    const pdf = new jsPDF("l", "pt", "a4", true);
+
+    var width = pdf.internal.pageSize.getWidth();
+    var height = pdf.internal.pageSize.getHeight();
+
+
+    pdf.addImage(certif, 'PNG', 0, 0, width, height, '', "fast");
+
+    pdf.setFontSize(20)
+    pdf.text(250, 335, `${name} **** ${theme}`)
+    pdf.save(`${name}-${theme}.pdf`);
 
 
   }
+
+
+
+
+
 
   if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
 
@@ -178,9 +201,12 @@ const Maps = () => {
 
                                 <DropdownItem
                                   href="#pablo"
-                                // onClick={getCertificate(`${participant["nameame"]} ${participant["lastName"]}`, participant["theme"])}
+                                  onClick={e => {
+                                    e.preventDefault();
+                                    generateCertif(`${participant['name']} ${participant['lastName']}`, '1/2/2005', participant["theme"])
+                                  }}
                                 >
-                                  <GenerateCertif />
+                                  Get Certificate
                                 </DropdownItem>
 
                               </DropdownMenu>

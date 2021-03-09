@@ -15,7 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -31,59 +33,57 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert,
 } from "reactstrap";
+import store from "store";
 
 const Login = () => {
+
+
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [redirect, setRedirect] = useState(false);
+
+
+  async function submit(e) {
+    e.preventDefault();
+
+    try {
+      await axios.post('https://cims-server.herokuapp.com/auth/login', formData, {
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        withCredentials: true
+      }).then(res => {
+        <Redirect to='/admin/index' />
+      })
+
+
+
+      setRedirect(true);
+
+    } catch (error) {
+      Alert('An error occure while submitting!!!');
+    }
+
+  }
+
+  if (redirect) {
+    console.log({ path: window.location.pathname })
+    return window.location.pathname = '/';
+    // return <Redirect to='Dashboard'  />
+  }
+
+
+
   return (
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
-            </div>
-            <div className="btn-wrapper text-center">
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/github.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/google.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
-            </div>
-          </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small>sign in with credentials</small>
             </div>
-            <Form role="form">
+            <Form role="form" onSubmit={submit}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
@@ -94,7 +94,9 @@ const Login = () => {
                   <Input
                     placeholder="Email"
                     type="email"
+                    required
                     autoComplete="new-email"
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
                   />
                 </InputGroup>
               </FormGroup>
@@ -108,7 +110,9 @@ const Login = () => {
                   <Input
                     placeholder="Password"
                     type="password"
+                    required
                     autoComplete="new-password"
+                    onChange={e => setFormData({ ...formData, password: e.target.value })}
                   />
                 </InputGroup>
               </FormGroup>
@@ -126,7 +130,7 @@ const Login = () => {
                 </label>
               </div>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button className="my-4" color="primary" type="submit">
                   Sign in
                 </Button>
               </div>

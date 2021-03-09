@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -27,9 +27,25 @@ import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
 
 
+import store from './store.js';
+import axios from "axios";
+
+
+
+
+
+
+
+
+
+
 ReactDOM.render(
+
+
+
   <BrowserRouter>
     <Switch>
+
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
       {/* <Route path="/newParticipant" render={() => <AddParticipant />} /> */}

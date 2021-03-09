@@ -25,7 +25,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, Paper } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Paper } from '@material-ui/core';
 
 import Draggable from 'react-draggable';
 import AddBoxIcon from '@material-ui/icons/AddBox';

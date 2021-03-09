@@ -1,24 +1,13 @@
-import { CircularProgress } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, CustomInput } from 'reactstrap'
-import CheckboxListFormers from 'components/others/FormersList';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, Paper } from '@material-ui/core';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import Draggable from 'react-draggable';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 
+import FileBase from 'react-file-base64';
 
 
 function AddFormer() {
     const [isLoading, setisLoading] = useState(true);
-    const [formData, setFormData] = useState({ name: '', lastName: '', email: '' });
+    const [formData, setFormData] = useState({ name: '', lastName: '', email: '', image: '' });
 
 
 
@@ -72,8 +61,8 @@ function AddFormer() {
                         <Label for="email">Email</Label>
                         <Input type="email" name="email" id="email" placeholder="Enter email" onChange={e => setFormData({ ...formData, email: e.target.value })} />
                     </FormGroup>
-
-
+                    <Label for="image">Image Profile</Label>
+                    <div id='image'><FileBase type="file" multiple={false} onDone={({ base64 }) => setFormData({ ...formData, image: base64 })} /></div>
 
 
                     <Button >Submit</Button>

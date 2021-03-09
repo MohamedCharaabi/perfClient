@@ -15,32 +15,79 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
-import { Container } from "reactstrap";
 // core components
-import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import AdminFooter from "components/Footers/AdminFooter.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
 
+import Sidebar from "components/Sidebar/Sidebar.js";
+import logo from '../assets/img/logo.jpg';
 import routes from "routes.js";
 import { others } from "routes.js";
-import EditTheme from "views/examples/EditTheme.js";
+import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+  const [user, setUser] = useState(null);
+  const [isLoading, setisLoading] = useState(true)
 
   React.useEffect(() => {
+    setisLoading(true);
+    getUser();
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
+    // mainContent.current.scrollTop = 0;
+
+
   }, [location]);
+
+
+
+  async function getUser() {
+    try {
+      await axios.get('https://cims-server.herokuapp.com/auth/user', {
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        withCredentials: true
+      }).then(res => {
+        if (res.data.hasOwnProperty('name')) {
+          setUser(true);
+        } else {
+          setUser(false);
+        }
+
+        setisLoading(false);
+        console.log(res.data);
+
+
+      });
+    } catch (error) {
+      setUser(false);
+      setisLoading(false);
+      console.log(error.message);
+    }
+
+
+
+
+
+
+
+
+
+
+    // console.log(user);
+
+  }
+
+
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/admin" || prop.layout === "/auth") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -56,6 +103,16 @@ const Admin = (props) => {
 
   const getOtherRoutes = (others) => {
     return others.map((prop, key) => {
+      if (prop.layout === "/auth") {
+        return (
+          <Route
+
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={props.name}
+          />
+        );
+      }
       if (prop.layout === "/admin") {
         return (
           <Route
@@ -82,22 +139,44 @@ const Admin = (props) => {
     return "Brand";
   };
 
+
+
+
+
+  if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
+
+
+  console.log(user);
+  if (!user) {
+    return <Redirect to='/auth/Login' />
+  }
+
+
+
   return (
     <>
-      <Sidebar
-        {...props}
-        routes={routes}
-        logo={{
-          innerLink: "/admin/index",
-          imgSrc: "http://www.cims.rns.tn/images/images/logo-cimsp.jpg",
-          imgAlt: "...",
-        }}
-      />
-      <div className="main-content" ref={mainContent}>
-        {/* {window.location.pathname.startsWith("/admin/EditTheme/") ? null : <AdminNavbar
+
+
+      {user ?
+        <Sidebar
           {...props}
-          brandText={getBrandText(props.location.pathname)}
-        />} */}
+          routes={routes}
+          logo={{
+            innerLink: "/admin/index",
+            // imgSrc: { logo },
+            imgAlt: "...",
+          }}
+        /> :
+        null}
+
+
+
+
+
+      <div className="main-content" ref={mainContent}>
+        {/* {window.location.pathname === '/admin/index' ? <AdminNavbar /> : null} */}
+
+
         <Switch>
 
           {getOtherRoutes(others)}
@@ -105,9 +184,10 @@ const Admin = (props) => {
           <Redirect from="*" to="/admin/index" />
 
         </Switch>
-        {/* <Container fluid>
-           <AdminFooter /> 
-        </Container> */}
+
+
+
+
       </div>
     </>
   );

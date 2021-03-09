@@ -53,6 +53,7 @@ import {
 } from "reactstrap";
 
 var ps;
+import logosrc from '../../assets/img/logo.jpg'
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
@@ -72,17 +73,18 @@ const Sidebar = (props) => {
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
       return (
-        <NavItem key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={closeCollapse}
-            activeClassName="active"
-          >
-            <i className={prop.icon} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
+        prop.layout === '/auth' ? null :
+          <NavItem key={key}>
+            <NavLink
+              to={prop.layout + prop.path}
+              tag={NavLinkRRD}
+              onClick={closeCollapse}
+              activeClassName="active"
+            >
+              <i className={prop.icon} />
+              {prop.name}
+            </NavLink>
+          </NavItem>
       );
     });
   };
@@ -120,9 +122,9 @@ const Sidebar = (props) => {
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
             <img
-              alt={logo.imgAlt}
+              alt='logo'
               className="navbar-brand-img"
-              src={logo.imgSrc}
+              src={logosrc}
             />
           </NavbarBrand>
         ) : null}
@@ -197,10 +199,10 @@ const Sidebar = (props) => {
                       <img alt={logo.imgAlt} src={logo.imgSrc} />
                     </Link>
                   ) : (
-                      <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
-                      </a>
-                    )}
+                    <a href={logo.outterLink}>
+                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                    </a>
+                  )}
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">

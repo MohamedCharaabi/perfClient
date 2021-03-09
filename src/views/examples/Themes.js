@@ -47,7 +47,6 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 
-import { getThemes } from '../api/api.js';
 import axios from 'axios';
 import { Link, useHistory } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
@@ -88,7 +87,7 @@ const Icons = () => {
   }
 
 
-  if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
+  if (isLoading) return <CircularProgress style={{ justifyContent: 'center', alignContent: 'center' }} />
   return (
 
 
@@ -149,21 +148,21 @@ const Icons = () => {
                                       <a
                                         className="avatar avatar-sm"
                                         href="#pablo"
-                                        id="tooltip875258217"
+                                        id={former['name']}
                                         onClick={(e) => e.preventDefault()}
                                       >
                                         <img
                                           alt="..."
                                           className="rounded-circle"
                                           src={
-                                            require("../../assets/img/theme/team-1-800x800.jpg")
-                                              .default
+
+                                            former.image
                                           }
                                         />
                                       </a>
                                       <UncontrolledTooltip
                                         delay={0}
-                                        target="tooltip875258217"
+                                        target={former['name']}
                                       >
                                         {former['name']}
                                       </UncontrolledTooltip>

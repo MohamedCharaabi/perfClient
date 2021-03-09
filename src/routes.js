@@ -29,7 +29,7 @@ import EditFormer from "views/examples/EditFormer.js";
 import AddParticipant from "views/examples/AddParticipant.js";
 import Sessions from "views/examples/Sessions.js";
 import AddSession from "views/examples/AddSession.js";
-import Session from "views/examples/Sessions";
+
 
 
 
@@ -54,7 +54,7 @@ var routes = [
   {
     path: "/participants",
     name: "Participants",
-    icon: "ni ni-pin-3 text-orange",
+    icon: "ni ni-single-02 text-yellow",
     component: Maps,
     layout: "/admin",
   },
@@ -68,34 +68,50 @@ var routes = [
   {
     path: "/sessions",
     name: "Sessions",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-pin-3 text-orange",
     component: Sessions,
     layout: "/admin",
   },
+  // {
+  //   path: "/tables",
+  //   name: "Tables",
+  //   icon: "ni ni-bullet-list-67 text-red",
+  //   component: Tables,
+  //   layout: "/admin",
+  // },
   {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
+    path: "/login",
+    name: "Login",
+    icon: "ni ni-key-25 text-info",
+    component: Login,
+    layout: "/auth",
   },
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   icon: "ni ni-key-25 text-info",
-  //   component: Login,
-  //   layout: "/auth",
-  // },
-  // {
-  //   path: "/register",
-  //   name: "Register",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: Register,
-  //   layout: "/auth",
-  // },
+  {
+    path: "/register",
+    name: "Register",
+    icon: "ni ni-circle-08 text-pink",
+    component: Register,
+    layout: "/auth",
+  },
+
 ];
 
 export var others = [
+
+  {
+    path: "/login",
+    name: "Login",
+    icon: "ni ni-key-25 text-info",
+    component: Login,
+    layout: "/auth",
+  },
+  {
+    path: "/register",
+    name: "Register",
+    icon: "ni ni-circle-08 text-pink",
+    component: Register,
+    layout: "/auth",
+  },
   {
     path: "/edittheme/:id",
     name: "EditTheme",

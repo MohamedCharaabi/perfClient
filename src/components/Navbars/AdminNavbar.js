@@ -15,7 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
@@ -34,8 +35,41 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import Cookies from 'js-cookie';
 
 const AdminNavbar = (props) => {
+
+  const [login, setLogin] = useState(true)
+
+
+
+  async function logout() {
+
+    // alert('loging out')
+
+    await axios.post('https://cims-server.herokuapp.com/logout', {
+      headers: {
+        'Content-Type': 'Application/json'
+      },
+      withCredentials: true
+    }).then(res => {
+      console.log(res.data);
+      Cookies.remove('jwt');
+      setLogin(false);
+
+    }).catch(e => console.log(e.message));
+
+
+  }
+
+
+  // if (!Cookies.get('user')) {
+  //   return window.location.pathname = '/auth/login';
+  // }
+
+
+  if (!login) return window.location.pathname = '/auth/login';
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -66,14 +100,14 @@ const AdminNavbar = (props) => {
                     <img
                       alt="..."
                       src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
+                        require("../../assets/img/theme/team-1-800x800.jpg")
                           .default
                       }
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {props.name}
                     </span>
                   </Media>
                 </Media>
@@ -101,7 +135,7 @@ const AdminNavbar = (props) => {
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
                   <i className="ni ni-user-run" />
-                  <span>Logout</span>
+                  <span onClick={logout}>Logout</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

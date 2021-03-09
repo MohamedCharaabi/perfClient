@@ -42,6 +42,8 @@ import Header from "components/Headers/Header.js";
 import axios from 'axios';
 import { Link, useHistory } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
+import jsPDF from "jspdf";
+import('jspdf-autotable');
 
 
 
@@ -55,13 +57,14 @@ const Session = () => {
     const [sessions, setSessions] = useState([]);
     const [participants, setParticipants] = useState([]);
     const [names, setNames] = useState([]);
+    const [themes, setThemes] = useState([])
 
 
     useEffect(() => {
         setisLoading(true);
         loadSessions();
         getParticipants();
-
+        getThemes();
 
     }, [])
 
@@ -74,6 +77,12 @@ const Session = () => {
     async function getParticipants() {
         var result = await axios.get(`https://cims-server.herokuapp.com/participant`);
         setParticipants(result.data);
+        setisLoading(false);
+    }
+
+    async function getThemes() {
+        var result = await axios.get(`https://cims-server.herokuapp.com/theme`);
+        setThemes(result.data['data']);
         setisLoading(false);
     }
 
@@ -91,6 +100,89 @@ const Session = () => {
 
 
     }
+
+
+
+    function exportPdf(session) {
+        console.log(session);
+
+
+
+
+        let names = [];
+        let establishment = [];
+        let proffesions = [];
+        let phones = [];
+        let emails = [];
+        var daysNumber;
+
+
+
+        themes.map(theme => {
+            if (theme['name'] === session['theme']) {
+                daysNumber = theme['days'];
+            }
+            return null;
+        })
+
+
+        session['participants'].map(par => {
+            console.log(par);
+
+            participants.map(participant => {
+
+                if (participant['_id'] === par) {
+                    console.log(par)
+                    names.push(`${participant['name']} ${participant['lastName']}`);
+                    establishment.push(participant['establishment']);
+                    proffesions.push(participant['proffesion']);
+                    phones.push(participant['phone']);
+                    emails.push(participant['email']);
+
+                }
+
+            })
+
+        })
+
+        // console.log(names);
+
+        var headers = [['Names', 'Establishment', 'proffesion', 'phone', 'email']]
+        let x = new Date(session['date']);
+        console.log(x)
+        let date = x
+
+        for (let i = 0; i < daysNumber; i++) {
+            headers[0].push((date.getDate() + i) + '/' + date.getMonth() + '/' + date.getFullYear());
+        }
+
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "landscape"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        let data2 = [];
+
+        for (let x = 0; x < names.length; x++) {
+            data2.push([names[x], establishment[x], proffesions[x], phones[x], emails[x]]);
+        }
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: data2
+        };
+
+        doc.text(session['theme'], marginLeft, 40);
+        doc.autoTable(content);
+        doc.save(`Session-${session['theme']}.pdf`)
+    }
+
+
 
 
     function listParticipants(users) {
@@ -181,18 +273,20 @@ const Session = () => {
 
                                                                 </Link>
                                                                 <DropdownItem
-                                                                    href="#pablo"
+
                                                                     onClick={e => e.preventDefault(deleteSession(id))}
                                                                 >
                                                                     Remove
                         </DropdownItem>
 
                                                                 <DropdownItem
-                                                                    href="#pablo"
-                                                                // onClick={}
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault()
+                                                                        exportPdf(session)
+                                                                    }}
                                                                 >
                                                                     Generate File
-                        </DropdownItem>
+                                                                </DropdownItem>
 
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>

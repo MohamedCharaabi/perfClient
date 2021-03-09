@@ -1,43 +1,12 @@
-import { Chip, CircularProgress, FormControl, InputLabel, makeStyles, MenuItem, TextField, useTheme } from '@material-ui/core';
+import { CircularProgress, InputLabel, makeStyles, TextField, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, CustomInput, Col } from 'reactstrap'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Paper } from '@material-ui/core';
-import Draggable from 'react-draggable';
-import MultipleSelect from './Ship';
-import CustomSelect from './CustomSelect';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
+
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
 
 function getStyles(name, personName, theme) {
     return {

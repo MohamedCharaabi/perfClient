@@ -15,7 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -31,59 +33,48 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert,
 } from "reactstrap";
 
 const Register = () => {
+
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [redirect, setRedirect] = useState(false);
+
+
+  async function submit(e) {
+    e.preventDefault();
+
+    try {
+      const resp = await axios.post('https://cims-server.herokuapp.com/auth/register', formData, {
+        headers: {
+          'Content-Type': 'Application/json'
+        }
+      })
+
+      console.log(resp.data);
+      setRedirect(true);
+
+    } catch (error) {
+      Alert('An error occure while submitting!!!');
+    }
+
+  }
+
+  if (redirect) {
+    return <Redirect to='Login' />
+  }
+
+
   return (
     <>
       <Col lg="6" md="8">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
-            <div className="text-muted text-center mt-2 mb-4">
-              <small>Sign up with</small>
-            </div>
-            <div className="text-center">
-              <Button
-                className="btn-neutral btn-icon mr-4"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/github.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/google.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
-            </div>
-          </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign up with credentials</small>
+              <small>sign up with credentials</small>
             </div>
-            <Form role="form">
+            <Form role="form" onSubmit={submit}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -91,7 +82,7 @@ const Register = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
+                  <Input placeholder="Name" type="text" onChange={e => setFormData({ ...formData, name: e.target.value })} />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -105,6 +96,7 @@ const Register = () => {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
                   />
                 </InputGroup>
               </FormGroup>
@@ -119,6 +111,7 @@ const Register = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={e => setFormData({ ...formData, password: e.target.value })}
                   />
                 </InputGroup>
               </FormGroup>
@@ -151,7 +144,7 @@ const Register = () => {
                 </Col>
               </Row>
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button className="mt-4" color="primary" type="submit">
                   Create account
                 </Button>
               </div>
