@@ -2,5 +2,6 @@
 /node_modules
 package-lock.json
 .eslintcache
-.firebase.json
-
+firebase.json
+.firebase
+.github
