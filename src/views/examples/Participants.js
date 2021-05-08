@@ -18,7 +18,7 @@
 import React, { useEffect, useState } from "react";
 // core components
 import Header from "components/Headers/Header.js";
-import fs from 'fs'
+
 
 // reactstrap components
 import {
@@ -27,19 +27,13 @@ import {
   CardBody,
   Container,
   Row,
-  Col,
-  UncontrolledTooltip,
-  Badge,
-  CardFooter,
+
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
+
   Table,
   Button,
 
@@ -57,12 +51,14 @@ const Maps = () => {
 
   const [isLoading, setisLoading] = useState(false);
   const [participants, setParticipants] = useState([])
+  const [themes, setThemes] = useState([])
 
 
 
   useEffect(() => {
     setisLoading(true);
     loadParticipants();
+    loadThemes();
   }, [])
 
 
@@ -70,6 +66,13 @@ const Maps = () => {
   async function loadParticipants() {
     var result = await axios.get(`https://cims-server.herokuapp.com/participant`);
     setParticipants(result.data);
+    // setisLoading(false);
+  }
+  async function loadThemes() {
+    await axios.get(`https://cims-server.herokuapp.com/theme`)
+      .then(res => setThemes(res.data.data))
+      .catch(error => alert(`errror fetching themes : ${error.message}`));
+
     setisLoading(false);
   }
 
@@ -146,6 +149,10 @@ const Maps = () => {
                     {
                       participants.map((participant) => {
                         let id = participant['_id'];
+                        console.log(participant.theme)
+                        var theme = themes.find(t => t._id === participant.theme);
+                        // console.log(theme)
+
                         return <tr key={participant['id']}>
                           <th scope="row">
                             <Media className="align-items-center">
@@ -164,7 +171,13 @@ const Maps = () => {
                           <td>{participant["proffesion"]} </td>
                           <td>{participant["phone"]} </td>
                           <td>{participant["establishment"]}  </td>
-                          <td>{participant["theme"]}  </td>
+                          <td>
+
+                            {theme.name}
+
+
+
+                          </td>
 
 
 

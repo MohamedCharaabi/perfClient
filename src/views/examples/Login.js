@@ -23,7 +23,6 @@ import { Redirect } from "react-router-dom";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -35,7 +34,7 @@ import {
   Col,
   Alert,
 } from "reactstrap";
-import store from "store";
+
 
 const Login = () => {
 

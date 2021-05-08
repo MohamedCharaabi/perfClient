@@ -20,7 +20,7 @@ import Profile from "views/examples/Formers.js";
 import Maps from "views/examples/Participants.js";
 import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
+
 import Icons from "views/examples/Themes.js";
 import EditTheme from "views/examples/EditTheme.js";
 import AddTheme from "views/examples/AddTheme.js";
@@ -29,6 +29,7 @@ import EditFormer from "views/examples/EditFormer.js";
 import AddParticipant from "views/examples/AddParticipant.js";
 import Sessions from "views/examples/Sessions.js";
 import AddSession from "views/examples/AddSession.js";
+import EditSession from "views/examples/EditSession";
 
 
 
@@ -168,6 +169,13 @@ export var others = [
     name: "AddSession",
     icon: "ni ni-circle-08 text-pink",
     component: AddSession,
+    layout: "/admin",
+  },
+  {
+    path: "/editSession/:id",
+    name: "EditFormer",
+    icon: "ni ni-circle-08 text-pink",
+    component: EditSession,
     layout: "/admin",
   },
 

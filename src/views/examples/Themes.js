@@ -17,7 +17,7 @@
 */
 import React, { useState, useEffect } from "react";
 // react component that copies the given text inside your clipboard
-import { CopyToClipboard } from "react-copy-to-clipboard";
+// import { CopyToClipboard } from "react-copy-to-clipboard";
 // react-top-loading-bar
 
 // reactstrap components
@@ -27,19 +27,15 @@ import {
   CardBody,
   Container,
   Row,
-  Col,
+
   UncontrolledTooltip,
-  Badge,
-  CardFooter,
+
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
+
   Table,
   Button,
 
@@ -48,19 +44,20 @@ import {
 import Header from "components/Headers/Header.js";
 
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 
 
 const Icons = () => {
-  let history = useHistory();
+
   const [isLoading, setisLoading] = useState(true);
   const [themes, setThemes] = useState([]);
-
+  const [formers, setFormers] = useState([]);
 
   useEffect(() => {
     setisLoading(true);
     loadThemes();
+    loadFormers();
 
 
   }, [])
@@ -68,6 +65,14 @@ const Icons = () => {
   async function loadThemes() {
     var result = await axios.get(`https://cims-server.herokuapp.com/theme`);
     setThemes(result.data['data']);
+    // setisLoading(false);
+  }
+
+  async function loadFormers() {
+    await axios.get(`https://cims-server.herokuapp.com/former`)
+      .then(res => setFormers(res.data))
+      .catch(error => alert(`Failed to load formers : ${error.message}`));
+
     setisLoading(false);
   }
 
@@ -81,9 +86,6 @@ const Icons = () => {
     } catch (error) {
       alert(`Error while deleting:\n ${error.message}`);
     }
-
-
-
   }
 
 
@@ -143,12 +145,19 @@ const Icons = () => {
 
                               {
                                 React.Children.toArray(
-                                  theme['formers'].map(former => {
+                                  theme.formers.map(former => {
+
+                                    console.log(former);
+
+                                    var obj = formers.find(f => f._id === former);
+
+
+
                                     return <>
                                       <a
                                         className="avatar avatar-sm"
                                         href="#pablo"
-                                        id={former['name']}
+                                        id={obj.name}
                                         onClick={(e) => e.preventDefault()}
                                       >
                                         <img
@@ -156,18 +165,20 @@ const Icons = () => {
                                           className="rounded-circle"
                                           src={
 
-                                            former.image
+                                            obj.image
                                           }
                                         />
                                       </a>
                                       <UncontrolledTooltip
                                         delay={0}
-                                        target={former['name']}
+                                        target={obj['name']}
                                       >
-                                        {former['name']}
+                                        {obj['name']}
                                       </UncontrolledTooltip>
 
                                     </>
+
+
 
                                   })
                                 )

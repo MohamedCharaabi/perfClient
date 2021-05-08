@@ -53,7 +53,7 @@ import {
 } from "reactstrap";
 
 var ps;
-import logosrc from '../../assets/img/logo.jpg'
+import logosrc from 'assets/img/logo.jpg'
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
@@ -196,11 +196,11 @@ const Sidebar = (props) => {
                 <Col className="collapse-brand" xs="6">
                   {logo.innerLink ? (
                     <Link to={logo.innerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      <img alt={logo.imgAlt} src={logosrc} />
                     </Link>
                   ) : (
                     <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      <img alt={logo.imgAlt} src={logosrc} />
                     </a>
                   )}
                 </Col>
@@ -261,7 +261,7 @@ Sidebar.propTypes = {
     // it will be rendered as simple <a href="...">...</a> tag
     outterLink: PropTypes.string,
     // the image src of the logo
-    imgSrc: PropTypes.string.isRequired,
+    // imgSrc: PropTypes.string.isRequired,
     // the alt for the img
     imgAlt: PropTypes.string.isRequired,
   }),

@@ -15,20 +15,15 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, InputLabel } from "@material-ui/core";
 import axios from "axios";
-import CheckboxListFormers from "components/others/FormersList";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Paper } from '@material-ui/core';
 
-import Draggable from 'react-draggable';
-import AddBoxIcon from '@material-ui/icons/AddBox';
+
+
+import Select from 'react-select'
+
 
 // reactstrap components
 import {
@@ -39,103 +34,103 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
+
     InputGroup,
-    Row,
+
     Col,
     Label,
 } from "reactstrap";
+
+
+import makeAnimated from 'react-select/animated';
+import { Alert } from "bootstrap";
+
+
 
 const EditTheme = ({ props }) => {
 
     const [isLoading, setisLoading] = useState(true)
     let { id } = useParams();
-    const [theme, setTheme] = useState();
+    const [theme, setTheme] = useState({});
     const [formData, setFormData] = useState({ name: '', days: '', formers: [] });
-    const [checked, setChecked] = React.useState([1]);
-    const [allFormers, setAllFormers] = useState([]);
-    const [newFormers, setnewFormers] = useState([])
+    // const [checked, setChecked] = React.useState([1]);
+    // const [allFormers, setAllFormers] = useState([]);
+    // const [newFormers, setnewFormers] = useState([])
+    const [formers, setFormers] = useState([])
+    const [options, setoptions] = useState([]);
+    const [values, setValues] = useState([])
+
 
 
     useEffect(() => {
         setisLoading(true);
         getTheme();
+        getFormers();
+        // getValues();
     }, [])
 
     async function getTheme() {
-        var result = await axios.get(`https://cims-server.herokuapp.com/theme/${id}`);
-        var formers = await axios.get(`https://cims-server.herokuapp.com/former`);
-        setTheme(result.data);
-        setAllFormers(formers.data);
+        await axios.get(`https://cims-server.herokuapp.com/theme/${id}`)
+            .then(res => setTheme(res.data))
+            .catch(error => Alert(`error:: ${error.message}`));
+
+
+    }
+
+    async function getFormers() {
+        await axios.get(`https://cims-server.herokuapp.com/former`)
+            .then(res => setFormers(res.data))
+            .catch(error => alert(error));
+
+
         setisLoading(false);
+        // console.log(formers);
     }
 
 
-    async function updateTheme() {
+    async function updateTheme(e) {
+        e.preventDefault();
 
-        try {
-            var result = await axios.patch(`https://cims-server.herokuapp.com/theme/${id}`, formData);
-            alert("Updated Successfully");
-        } catch (error) {
-            alert(`Error while updating former\n: ${error.message}`)
-        }
+        await axios.patch(`https://cims-server.herokuapp.com/theme/${id}`, formData)
+            .then(res => alert('Sucess to update'))
+            .catch(error => alert(`Error while updating former\n: ${error.message}`));
+
+        console.log(formData)
 
     }
 
+    function getValues() {
+        let values = [];
+        theme.formers.map(former => {
+            var form = formers.find(f => f._id === former);
+            return values.push({ value: form._id, label: `${form.name} ${form.lastName}` })
+        })
 
-    const handleToggle = (value) => () => {
-        let form = formData['formers'];
-
-        const currentIndex = form.indexOf(value);
-        // const newChecked = [...checked];
-        const newChecked = [...form];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        // setChecked(newChecked);
-        setFormData({ ...formData, formers: newChecked });
-    };
-
-    const handleAddFormer = (value) => () => {
-        let form = formData['formers'];
-
-        const currentIndex = form.indexOf(value);
-        // const newChecked = [...checked];
-        const newChecked = [...form];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        // setChecked(newChecked);
-        setnewFormers(...newFormers, newChecked);
-    };
-
-
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    function PaperComponent(props) {
-        return (
-            <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-                <Paper {...props} />
-            </Draggable>
-        );
+        setValues(values);
     }
+
+
+    function getOptions() {
+        getValues();
+        let selections = [];
+
+        formers.map(former => { return selections.push({ value: former._id, label: `${former.name} ${former.lastName}` }) })
+        setoptions(selections);
+
+        // return selections;
+        console.log(options);
+
+    }
+    const handleChange = (value) => {
+        console.log(` option  : ${value}`)
+        setFormData({ ...formData, formers: value.map(val => val.value) });
+        // value.map(val => console.log(` option selected : ${val.value}`))
+
+    };
+
+
+
+
 
 
 
@@ -164,7 +159,8 @@ const EditTheme = ({ props }) => {
                                         type="name"
                                         id='theme_name'
                                         style={{ color: 'red' }}
-
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    // onBlur={getOptions}
                                     />
                                 </InputGroup>
                             </FormGroup>
@@ -180,6 +176,7 @@ const EditTheme = ({ props }) => {
                                         type="number"
                                         id='theme_length'
                                         style={{ color: 'red' }}
+                                        onChange={(e) => setFormData({ ...formData, days: e.target.value })}
                                     />
                                 </InputGroup>
                             </FormGroup>
@@ -188,93 +185,20 @@ const EditTheme = ({ props }) => {
 
 
                             {/* Former */}
-                            {/* <CheckboxListFormers props={theme['formers']} /> */}
 
-                            <List dense >
+                            <InputLabel id="participants">Formers </InputLabel>
+                            {/* {console.log(formers)} */}
+                            <Select
+                                onFocus={getOptions}
+                                id='participants'
+                                closeMenuOnSelect={false}
+                                components={makeAnimated()}
+                                isMulti={true}
+                                defaultValue={values}
 
-                                {theme['formers'].map((former) => {
-                                    const Id = former['_id'];
-                                    const index = theme['formers'].indexOf(former);
-                                    return (
-                                        <ListItem key={Id} button>
-
-                                            <ListItemText id={Id} primary={` ${former['name']} ${former['lastName']}`} />
-                                            <ListItemSecondaryAction>
-                                                <Checkbox
-                                                    edge="end"
-                                                    onChange={handleToggle(former)}
-                                                    checked={formData['formers'].indexOf(former) !== -1}
-                                                    inputProps={{ 'aria-labelledby': Id }}
-                                                />
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
-                                    );
-                                })}
-
-
-
-
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    endIcon={<AddBoxIcon />}
-                                    onClick={handleClickOpen}
-                                >
-                                    Add Formers
-                                </Button>
-
-
-
-                                <Dialog open={open}
-                                    onClose={handleClose}
-                                    PaperComponent={PaperComponent}
-                                    aria-labelledby="draggable-dialog-title"
-                                >
-                                    <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                                        Formers
-        </DialogTitle>
-                                    <DialogContent>
-
-                                        <List dense >
-
-                                            {allFormers.map((value) => {
-                                                const Id = value['id'];
-                                                const index = allFormers.indexOf(value);
-                                                return (
-                                                    <ListItem key={value} button>
-                                                        <ListItemText id={Id} primary={` ${value['name']} ${value['lastName']}`} />
-                                                        <ListItemSecondaryAction>
-                                                            <Checkbox
-                                                                edge="end"
-                                                                onChange={handleAddFormer(index)}
-                                                                checked={newFormers.indexOf(index) !== -1}
-                                                                inputProps={{ 'aria-labelledby': Id }}
-                                                            />
-                                                        </ListItemSecondaryAction>
-                                                    </ListItem>
-                                                );
-                                            })}
-
-                                        </List>
-
-
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button autoFocus onClick={handleClose} color="primary">
-                                            Cancel
-          </Button>
-                                        <Button onClick={handleClose} color="primary">
-                                            Confirm
-          </Button>
-                                    </DialogActions>
-                                </Dialog>
-
-
-
-
-                            </List>
-
-
+                                options={options}
+                                onChange={handleChange}
+                            />
 
 
 
@@ -282,7 +206,7 @@ const EditTheme = ({ props }) => {
 
 
                             <div className="text-center">
-                                <Button className="my-4" color="primary" type="button">
+                                <Button className="my-4" color="primary" type="submit">
                                     Update
                 </Button>
                             </div>

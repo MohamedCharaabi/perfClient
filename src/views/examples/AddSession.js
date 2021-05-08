@@ -1,4 +1,4 @@
-import { CircularProgress, InputLabel, makeStyles, TextField, useTheme } from '@material-ui/core';
+import { CircularProgress, InputLabel, makeStyles, TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
@@ -8,14 +8,6 @@ import makeAnimated from 'react-select/animated';
 
 
 
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-            personName.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
 
 
 
@@ -53,14 +45,12 @@ const useStyles = makeStyles((theme) => ({
 function AddSession() {
 
     const classes = useStyles();
-    const [personName, setPersonName] = React.useState([]);
-    const theme = useTheme();
+
 
 
     const [isLoading, setisLoading] = useState(true);
     const [formData, setFormData] = useState({ theme: '', date: '', participants: [] });
 
-    const [checked, setChecked] = React.useState([]);
     const [participants, setParticipants] = useState([]);
     const [themes, setThemes] = useState([]);
     const [options, setoptions] = useState([]);
@@ -121,22 +111,7 @@ function AddSession() {
 
 
 
-    const handleToggle = (value) => () => {
-        let form = formData['formers'];
-        const currentIndex = form.indexOf(value);
-        // const newChecked = [...checked];
 
-        const newChecked = [...form];
-
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setFormData({ ...formData, formers: newChecked });
-    };
 
 
 
@@ -171,7 +146,7 @@ function AddSession() {
                             onBlur={getOptions}
                         >
                             {React.Children.toArray(
-                                themes.map(theme => <option >{theme['name']}</option>)
+                                themes.map(theme => <option value={theme._id}>{theme['name']}</option>)
                             )}
                         </Input>
                     </FormGroup>

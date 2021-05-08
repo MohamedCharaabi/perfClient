@@ -40,7 +40,7 @@ import {
 import Header from "components/Headers/Header.js";
 
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import jsPDF from "jspdf";
 import('jspdf-autotable');
@@ -52,11 +52,10 @@ import('jspdf-autotable');
 
 
 const Session = () => {
-    let history = useHistory();
     const [isLoading, setisLoading] = useState(true);
     const [sessions, setSessions] = useState([]);
     const [participants, setParticipants] = useState([]);
-    const [names, setNames] = useState([]);
+
     const [themes, setThemes] = useState([])
 
 
@@ -66,24 +65,27 @@ const Session = () => {
         getParticipants();
         getThemes();
 
+
     }, [])
 
     async function loadSessions() {
         var result = await axios.get(`https://cims-server.herokuapp.com/session`);
         setSessions(result.data);
-        setisLoading(false);
+        // setisLoading(false);
     }
 
     async function getParticipants() {
         var result = await axios.get(`https://cims-server.herokuapp.com/participant`);
         setParticipants(result.data);
-        setisLoading(false);
+        // setisLoading(false);
     }
 
     async function getThemes() {
         var result = await axios.get(`https://cims-server.herokuapp.com/theme`);
-        setThemes(result.data['data']);
+        setThemes(result.data.data);
         setisLoading(false);
+        console.log(themes)
+
     }
 
 
@@ -189,7 +191,7 @@ const Session = () => {
         return users.map(user => {
             return participants.map(part => part['_id'] === user ? `${part['name']} ${part['lastName']} ***` : null);
         });
-        console.log(names);
+        // console.log(names);
     }
 
 
@@ -228,13 +230,18 @@ const Session = () => {
                                         {
                                             sessions.map((session) => {
                                                 let id = session['_id'];
-                                                return <tr key={session['id']}>
+
+                                                console.log(themes);
+                                                var th = themes.find(t => t._id === session.theme);
+                                                console.log(th);
+
+                                                return <tr key={session['_id']}>
                                                     <th scope="row">
                                                         <Media className="align-items-center">
 
                                                             <Media>
                                                                 <span className="mb-0 text-sm">
-                                                                    {session.theme}
+                                                                    {th.name}
                                                                 </span>
                                                             </Media>
                                                         </Media>

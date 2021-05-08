@@ -1,68 +1,21 @@
-import { makeStyles } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 
 
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
-    },
-    chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: 2,
-    },
-    noLabel: {
-        marginTop: theme.spacing(3),
-    },
-}));
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
-
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-            personName.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
 
 
 
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
+
+
+
+
 
 
 function NewParticipant() {
-    const classes = useStyles();
+
     const [themes, setThemes] = useState([]);
     const [isLoading, setisLoading] = useState(true);
 
@@ -98,12 +51,12 @@ function NewParticipant() {
             alert('An Error Found ====>' + error.message);
         }
 
-    }
-
-
-    function handleChange() {
+        console.log(formData)
 
     }
+
+
+
 
 
     return (
@@ -147,7 +100,7 @@ function NewParticipant() {
                     <Label for="exampleSelect">Theme</Label>
                     <Input type="select" name="select" id="exampleSelect" onChange={e => setFormData({ ...formData, theme: e.target.value })}>
                         {React.Children.toArray(
-                            themes.map(theme => <option>{theme['name']}</option>)
+                            themes.map(theme => <option value={theme._id}>{theme['name']}</option>)
                         )}
                     </Input>
                 </FormGroup>

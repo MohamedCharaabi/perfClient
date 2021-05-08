@@ -19,10 +19,9 @@ import React, { useState } from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
-import cookies from "js-cookie"
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
-import AuthFooter from "components/Footers/AuthFooter.js";
+// import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "routes.js";
 import axios from "axios";

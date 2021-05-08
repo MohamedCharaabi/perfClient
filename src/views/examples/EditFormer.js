@@ -17,7 +17,7 @@
 */
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
-import CheckboxListFormers from "components/others/FormersList";
+// import CheckboxListFormers from "components/others/FormersList";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -30,10 +30,9 @@ import {
     FormGroup,
     Form,
     Input,
-    InputGroupAddon,
-    InputGroupText,
+
     InputGroup,
-    Row,
+
     Col,
     Label,
 } from "reactstrap";

@@ -24,26 +24,20 @@ import {
   CardBody,
   Container,
   Row,
-  Col,
-  UncontrolledTooltip,
-  Badge,
-  CardFooter,
+
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
+
   Table,
   Button,
 } from "reactstrap";
 // core components
-import UserHeader from "components/Headers/UserHeader.js";
+// import UserHeader from "components/Headers/UserHeader.js";
 import axios from 'axios';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import Header from "components/Headers/Header.js";
 

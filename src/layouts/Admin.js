@@ -21,7 +21,7 @@ import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // core components
 
 import Sidebar from "components/Sidebar/Sidebar.js";
-import logo from '../assets/img/logo.jpg';
+// import logo from 'assets/img/logo.jpg';
 import routes from "routes.js";
 import { others } from "routes.js";
 import axios from "axios";
@@ -109,7 +109,7 @@ const Admin = (props) => {
 
             path={prop.layout + prop.path}
             component={prop.component}
-            key={props.name}
+            key={key}
           />
         );
       }
@@ -118,7 +118,7 @@ const Admin = (props) => {
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
-            key={props.name}
+            key={key}
           />
         );
       } else {
@@ -127,17 +127,17 @@ const Admin = (props) => {
     });
   };
 
-  const getBrandText = (path) => {
-    for (let i = 0; i < routes.length; i++) {
-      if (
-        props.location.pathname.indexOf(routes[i].layout + routes[i].path) !==
-        -1
-      ) {
-        return routes[i].name;
-      }
-    }
-    return "Brand";
-  };
+  // const getBrandText = (path) => {
+  //   for (let i = 0; i < routes.length; i++) {
+  //     if (
+  //       props.location.pathname.indexOf(routes[i].layout + routes[i].path) !==
+  //       -1
+  //     ) {
+  //       return routes[i].name;
+  //     }
+  //   }
+  //   return "Brand";
+  // };
 
 
 

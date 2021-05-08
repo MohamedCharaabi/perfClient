@@ -35,7 +35,7 @@ import {
   Container,
   Media,
 } from "reactstrap";
-import Cookies from 'js-cookie';
+
 
 const AdminNavbar = (props) => {
 
@@ -47,15 +47,15 @@ const AdminNavbar = (props) => {
 
     // alert('loging out')
 
-    await axios.post('https://cims-server.herokuapp.com/logout', {
+    await axios.get('https://cims-server.herokuapp.com/auth/logout', {
       headers: {
         'Content-Type': 'Application/json'
       },
       withCredentials: true
     }).then(res => {
       console.log(res.data);
-      Cookies.remove('jwt');
-      setLogin(false);
+      // Cookies.remove('jwt');
+      // setLogin(false);
 
     }).catch(e => console.log(e.message));
 
@@ -133,9 +133,9 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem onClick={(e) => { e.preventDefault(); logout(); }}>
                   <i className="ni ni-user-run" />
-                  <span onClick={logout}>Logout</span>
+                  <span >Logout</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
