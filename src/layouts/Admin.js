@@ -26,6 +26,7 @@ import routes from "routes.js";
 import { others } from "routes.js";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
+import EditSession from "views/examples/EditSession";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -143,7 +144,7 @@ const Admin = (props) => {
 
 
 
-  if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
+  if (isLoading) return <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}><CircularProgress /></div>
 
 
   console.log(user);
@@ -181,6 +182,7 @@ const Admin = (props) => {
 
           {getOtherRoutes(others)}
           {getRoutes(routes)}
+
           <Redirect from="*" to="/admin/index" />
 
         </Switch>

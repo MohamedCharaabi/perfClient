@@ -68,7 +68,7 @@ const EditFormer = ({ props }) => {
     }
 
 
-    if (isLoading) return <CircularProgress />
+    if (isLoading) return <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}><CircularProgress /></div>
 
     return (
         <>

@@ -1,7 +1,18 @@
 import { CircularProgress, InputLabel, makeStyles, TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
+import {
+    Button, Form, FormGroup, Label, Input, Container,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    CardImg,
+    Row,
+    Col,
+    CardTitle
+} from 'reactstrap'
+import ReactDatetime from "react-datetime";
 
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
@@ -56,27 +67,31 @@ function AddSession() {
     const [options, setoptions] = useState([]);
 
 
+    async function getParticipants() {
+        await axios.get(`https://cims-server.herokuapp.com/participant`)
+            .then(res => {
+                setParticipants(res.data);
+                setisLoading(false);
+            }).catch(err => console.log(err));
 
+    }
+    async function getThemes() {
+        await axios.get(`https://cims-server.herokuapp.com/theme`)
+            .then(res => setThemes(res.data['data']))
+            .catch(err => console.log(err));
+
+    }
 
 
     useEffect(() => {
         setisLoading(true);
-        getParticipants();
         getThemes();
+        getParticipants();
     }, [])
 
 
 
-    async function getParticipants() {
-        var result = await axios.get(`https://cims-server.herokuapp.com/participant`);
-        setParticipants(result.data);
-        setisLoading(false);
-    }
-    async function getThemes() {
-        var result = await axios.get(`https://cims-server.herokuapp.com/theme`);
-        setThemes(result.data['data']);
-        setisLoading(false);
-    }
+
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -112,9 +127,6 @@ function AddSession() {
 
 
 
-
-
-
     const handleChange = (value) => {
         setFormData({ ...formData, participants: value.map(val => val['value']) });
         console.log(value);
@@ -125,18 +137,41 @@ function AddSession() {
 
 
 
-    if (isLoading) return <CircularProgress />
+    if (isLoading) return <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}><CircularProgress /></div>
 
     return (
         <div>
-            <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
+            <Container style={{ marginTop: '33px', justifyItems: 'center' }} width={'50%'}>
+                <Card className="card-register" >
+                    <CardHeader>
+                        <CardTitle tag="h4">Add Session</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Form style={{ alignContent: 'center', width: '50%' }} onSubmit={handleSubmit} >
 
-                <Form style={{ alignContent: 'center', width: '50%' }} onSubmit={handleSubmit} >
+
+                            {/* select Theme */}
+                            <Col>
+                                <FormGroup>
+                                    <Label for="exampleSelect">Theme</Label>
+                                    <Input type="select" name="select" id="exampleSelect"
+                                        // defaultValue={themes[0].name}
+                                        onBlur={getOptions}
+                                        onChange={val => setFormData({ ...formData, theme: val.target.value })}
+                                    >
+                                        {themes.map(theme => {
+                                            // console.log(theme)
+                                            return <option value={theme._id}>
+                                                {theme.name}</option>
+                                        })}
 
 
-                    {/* select Theme */}
+                                    </Input>
+                                </FormGroup>
 
-                    <FormGroup >
+                            </Col>
+
+                            {/* <FormGroup >
                         <Label for="exampleSelect">Theme</Label>
                         <Input type="select" name="select" id="exampleSelect" onChange={(e) => {
                             setFormData({ ...formData, theme: e.target.value });
@@ -149,42 +184,67 @@ function AddSession() {
                                 themes.map(theme => <option value={theme._id}>{theme['name']}</option>)
                             )}
                         </Input>
-                    </FormGroup>
+                    </FormGroup> */}
 
 
 
 
-                    {/* Select participants */}
-
-                    <InputLabel id="participants">Participants</InputLabel>
-                    <Select
-                        id='participants'
-                        closeMenuOnSelect={false}
-                        components={makeAnimated()}
-                        isMulti
-                        options={options}
-                        onChange={handleChange} />
-
-
-                    {/* Date */}
-
-                    <TextField
-                        id="datetime-local"
-                        label="Pick Date"
-                        type="datetime-local"
-                        defaultValue={new Date()}
-                        className={classes.textField}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        style={{ marginTop: '33px' }}
-                        onChange={e => setFormData({ ...formData, date: e.target.value })}
-                    />
+                            {/* Select participants */}
+                            <Col>
+                                <InputLabel id="participants">Participants</InputLabel>
+                                <Select
+                                    id='participants'
+                                    closeMenuOnSelect={false}
+                                    components={makeAnimated()}
+                                    isMulti
+                                    options={options}
+                                    onChange={handleChange} />
+                            </Col>
 
 
-                    <Button color='primary' style={{ marginTop: '33px' }}>Submit</Button>
-                </Form>
 
+                            {/* Date */}
+                            {/* <h4 className="mb-5 mt-3">Datepicker</h4>
+
+                            <Col md="4">
+                                <div className="datepicker-container">
+                                    <FormGroup>
+                                        <ReactDatetime
+                                            inputProps={{
+                                                className: "form-control",
+                                                placeholder: "Date Picker Here",
+                                            }}
+                                        />
+                                    </FormGroup>
+                                </div>
+                            </Col> */}
+                            <Col>
+                                <TextField
+                                    id="datetime-local"
+                                    label="Pick Date"
+                                    type="datetime-local"
+                                    defaultValue={new Date()}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    style={{ marginTop: '33px' }}
+                                    onChange={e => setFormData({ ...formData, date: e.target.value })}
+                                />
+
+                            </Col>
+
+
+                            <Col>
+
+                                <Button color='primary' style={{ marginTop: '33px' }}>Submit</Button>
+                            </Col>
+                        </Form>
+                    </CardBody>
+                    <CardFooter>
+
+                    </CardFooter>
+                </Card>
 
 
             </Container>

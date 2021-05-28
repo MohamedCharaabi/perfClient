@@ -43,6 +43,9 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import jsPDF from "jspdf";
+import EditSession from "./EditSession";
+import { Download } from "react-feather";
+import certif from 'assets/certificate.png';
 import('jspdf-autotable');
 
 
@@ -87,9 +90,6 @@ const Session = () => {
         console.log(themes)
 
     }
-
-
-
     async function deleteSession(id) {
         try {
             await axios.delete(`https://cims-server.herokuapp.com/session/${id}`);
@@ -102,9 +102,6 @@ const Session = () => {
 
 
     }
-
-
-
     function exportPdf(session) {
         console.log(session);
 
@@ -184,15 +181,45 @@ const Session = () => {
         doc.save(`Session-${session['theme']}.pdf`)
     }
 
-
-
-
     function listParticipants(users) {
         return users.map(user => {
             return participants.map(part => part['_id'] === user ? `${part['name']} ${part['lastName']} ***` : null);
         });
         // console.log(names);
     }
+
+
+    function generateCertif(name, date, theme) {
+
+
+
+        const pdf = new jsPDF("l", "pt", "a4", true);
+
+        var width = pdf.internal.pageSize.getWidth();
+        var height = pdf.internal.pageSize.getHeight();
+
+
+        pdf.addImage(certif, 'PNG', 0, 0, width, height, '', "fast");
+
+        pdf.setFontSize(20)
+        pdf.text(250, 335, `${name} **** ${theme}`)
+        pdf.save(`${name}-${theme}.pdf`);
+
+
+    }
+
+    function downloadCertifs(session) {
+        session.participants.map(participant => {
+            var th = themes.find(t => t._id === session.theme)
+            return participants.map(par => {
+                if (participant === par._id) {
+                    return generateCertif(`${par.name} ${par.lastName}`, session.date, th.name)
+                }
+                return null;
+            });
+        });
+    }
+
 
 
     if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
@@ -216,7 +243,7 @@ const Session = () => {
                                     <thead className="thead-light">
                                         <tr>
                                             <th scope="col">Theme</th>
-                                            <th scope="col">DAte</th>
+                                            <th scope="col">Date</th>
                                             <th scope="col">participants</th>
 
                                             <th scope="col" />
@@ -271,7 +298,7 @@ const Session = () => {
                                                             <DropdownMenu className="dropdown-menu-arrow" right>
 
 
-                                                                <Link to={"EditSession/" + id}>
+                                                                <Link to={`EditSession/${id}/${th.name}`} >
                                                                     <DropdownItem
 
                                                                     >
@@ -294,7 +321,15 @@ const Session = () => {
                                                                 >
                                                                     Generate File
                                                                 </DropdownItem>
-
+                                                                <DropdownItem
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault()
+                                                                        // exportPdf(session)
+                                                                        downloadCertifs(session)
+                                                                    }}
+                                                                >
+                                                                    Generate Certificates
+                                                                </DropdownItem>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </td>

@@ -63,7 +63,7 @@
     "react-bootstrap": "^1.5.2",
     "react-chartjs-2": "2.11.1",
     "react-copy-to-clipboard": "5.0.3",
-    "react-datetime": "3.0.4",
+    "react-datetime": "^3.0.4",
     "react-dom": "17.0.1",
     "react-draggable": "^4.4.3",
     "react-file-base64": "^1.0.3",
@@ -75,7 +75,9 @@
     "react-top-loading-bar": "^2.0.1",
     "reactstrap": "8.9.0",
     "redux": "^4.0.5",
-    "serve": "^11.3.2"
+    "serve": "^11.3.2",
+    "sweetalert2": "^11.0.11",
+    "sweetalert2-react-content": "^4.0.1"
   },
   "devDependencies": {
     "gulp": "4.0.2",

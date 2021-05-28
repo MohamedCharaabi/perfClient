@@ -43,6 +43,8 @@ import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import certif from '../../assets/certificate.png';
 import jsPDF from "jspdf";
+import { handleSuccess } from "components/SweetAlerts";
+import { handleError } from "components/SweetAlerts";
 import('jspdf-autotable');
 
 
@@ -77,13 +79,14 @@ const Maps = () => {
   }
 
   async function deleteParticipant(id) {
-    try {
-      await axios.delete(`https://cims-server.herokuapp.com/participant/${id}`);
-      loadParticipants();
-      alert('Theme deleted Successfully');
-    } catch (error) {
-      alert(`Error while deleting:\n ${error.message}`);
-    }
+
+    await axios.delete(`https://cims-server.herokuapp.com/participant/${id}`)
+      .then(res => {
+        handleSuccess({ props: { title: 'Success' } })
+        loadParticipants();
+
+      }).catch(err => handleError({ props: { title: 'Success', text: err.text } }));
+
   }
 
   function generateCertif(name, date, theme) {
@@ -110,7 +113,7 @@ const Maps = () => {
 
 
 
-  if (isLoading) return <CircularProgress style={{ justifyContent: 'center' }} />
+  if (isLoading) return <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}><CircularProgress /></div>
 
   return (
     <>
@@ -123,7 +126,7 @@ const Maps = () => {
             <Card className="shadow">
               <CardHeader className="bg-transparent row" style={{ justifyContent: 'space-between' }}>
                 <h3 className="mb-0">Participants</h3>
-                <Link to='AddParticipant' ><Button color='primary' >Add Participant</Button> </Link>
+                {/* <Link to='AddParticipant' ><Button color='primary' >Add Participant</Button> </Link> */}
               </CardHeader>
               <CardBody>
                 <Table className="align-items-center table-flush" responsive>
@@ -196,7 +199,7 @@ const Maps = () => {
                               <DropdownMenu className="dropdown-menu-arrow" right>
 
 
-                                <Link to={"EditTheme/" + id}>
+                                {/* <Link to={"EditTheme/" + id}>
                                   <DropdownItem
                                   // href="#pablo"
                                   // onClick={edittheme}
@@ -204,7 +207,8 @@ const Maps = () => {
                                     Edit
                           </DropdownItem>
 
-                                </Link>
+                                </Link> */}
+
                                 <DropdownItem
                                   href="#pablo"
                                   onClick={e => e.preventDefault(deleteParticipant(id))}
@@ -212,15 +216,7 @@ const Maps = () => {
                                   Remove
                         </DropdownItem>
 
-                                <DropdownItem
-                                  href="#pablo"
-                                  onClick={e => {
-                                    e.preventDefault();
-                                    generateCertif(`${participant['name']} ${participant['lastName']}`, '1/2/2005', participant["theme"])
-                                  }}
-                                >
-                                  Get Certificate
-                                </DropdownItem>
+
 
                               </DropdownMenu>
                             </UncontrolledDropdown>

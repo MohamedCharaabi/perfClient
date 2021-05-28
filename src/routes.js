@@ -172,7 +172,7 @@ export var others = [
     layout: "/admin",
   },
   {
-    path: "/editSession/:id",
+    path: "/editSession/:id/:theme",
     name: "EditFormer",
     icon: "ni ni-circle-08 text-pink",
     component: EditSession,
