@@ -143,16 +143,16 @@ function AddSession() {
         <div>
             <Container style={{ marginTop: '33px', justifyItems: 'center' }} width={'50%'}>
                 <Card className="card-register" >
-                    <CardHeader>
-                        <CardTitle tag="h4">Add Session</CardTitle>
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Ajout Session</CardTitle>
                     </CardHeader>
                     <CardBody>
-                        <Form style={{ alignContent: 'center', width: '50%' }} onSubmit={handleSubmit} >
+                        <Form className='centerForm' onSubmit={handleSubmit} >
 
 
                             {/* select Theme */}
-                            <Col>
-                                <FormGroup>
+                            <Col lg={6}>
+                                <FormGroup >
                                     <Label for="exampleSelect">Theme</Label>
                                     <Input type="select" name="select" id="exampleSelect"
                                         // defaultValue={themes[0].name}
@@ -171,26 +171,9 @@ function AddSession() {
 
                             </Col>
 
-                            {/* <FormGroup >
-                        <Label for="exampleSelect">Theme</Label>
-                        <Input type="select" name="select" id="exampleSelect" onChange={(e) => {
-                            setFormData({ ...formData, theme: e.target.value });
-                            setoptions([]);
-                        }}
-
-                            onBlur={getOptions}
-                        >
-                            {React.Children.toArray(
-                                themes.map(theme => <option value={theme._id}>{theme['name']}</option>)
-                            )}
-                        </Input>
-                    </FormGroup> */}
-
-
-
-
                             {/* Select participants */}
-                            <Col>
+                            <Col lg={6}>
+
                                 <InputLabel id="participants">Participants</InputLabel>
                                 <Select
                                     id='participants'
@@ -218,7 +201,7 @@ function AddSession() {
                                     </FormGroup>
                                 </div>
                             </Col> */}
-                            <Col>
+                            <Col lg={6}>
                                 <TextField
                                     id="datetime-local"
                                     label="Pick Date"
@@ -235,7 +218,7 @@ function AddSession() {
                             </Col>
 
 
-                            <Col>
+                            <Col lg={6}>
 
                                 <Button color='primary' style={{ marginTop: '33px' }}>Submit</Button>
                             </Col>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input, Container, Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
 import FileBase from 'react-file-base64';
 
@@ -44,30 +44,40 @@ function AddFormer() {
     return (
         <div>
             <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
+                <Card className="card-register" >
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Ajout Formmateur</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Form className='centerForm' onSubmit={handleSubmit} >
 
-                <Form className style={{ alignContent: 'center' }} onSubmit={handleSubmit} >
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="name">Nom</Label>
+                                <Input type="name" name="name" id="name" placeholder="Enter Name" color='red' onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                            </FormGroup>
 
-                    <FormGroup style={{ width: '50%' }}>
-                        <Label for="name">Name</Label>
-                        <Input type="name" name="name" id="name" placeholder="Enter Name" color='red' onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                    </FormGroup>
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="days">Prenom</Label>
+                                <Input type="name" name="days" id="days" placeholder="Enter days" onChange={e => setFormData({ ...formData, lastName: e.target.value })} />
+                            </FormGroup>
 
-                    <FormGroup style={{ width: '50%' }}>
-                        <Label for="days">Last Name</Label>
-                        <Input type="name" name="days" id="days" placeholder="Enter days" onChange={e => setFormData({ ...formData, lastName: e.target.value })} />
-                    </FormGroup>
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="email">Email</Label>
+                                <Input type="email" name="email" id="email" placeholder="Enter email" onChange={e => setFormData({ ...formData, email: e.target.value })} />
+                            </FormGroup>
+                            <FormGroup style={{ width: '50%' }}>
 
-                    <FormGroup style={{ width: '50%' }}>
-                        <Label for="email">Email</Label>
-                        <Input type="email" name="email" id="email" placeholder="Enter email" onChange={e => setFormData({ ...formData, email: e.target.value })} />
-                    </FormGroup>
-                    <Label for="image">Image Profile</Label>
-                    <div id='image'><FileBase type="file" multiple={false} onDone={({ base64 }) => setFormData({ ...formData, image: base64 })} /></div>
+                                <Label for="image">Image Profile</Label>
+                                <div id='image'><FileBase type="file" multiple={false} onDone={({ base64 }) => setFormData({ ...formData, image: base64 })} /></div>
+
+                            </FormGroup>
 
 
-                    <Button >Submit</Button>
-                </Form>
+                            <Button >Submit</Button>
+                        </Form>
+                    </CardBody>
 
+                </Card>
 
 
             </Container>

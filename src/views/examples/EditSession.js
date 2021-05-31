@@ -160,43 +160,42 @@ function EditSession({ props }) {
 
     return (
         <div>
-            <Container >
+            <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
                 <Card className="card-register" >
-                    <CardHeader>
-                        <CardTitle tag="h4">Edit Session</CardTitle>
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Edit Session</CardTitle>
                     </CardHeader>
                     <CardBody>
-                        <Form style={{ alignContent: 'center', width: '50%' }} onSubmit={handleSubmit} >
+                        <Form className='centerForm' onSubmit={handleSubmit} >
 
 
                             {/* select Theme */}
-                            <Col>
-                                <FormGroup>
-                                    <Label for="exampleSelect">Theme</Label>
-                                    <Input type="select" name="select" id="exampleSelect"
-                                        defaultValue={'degf'}
-                                        onBlur={getOptions}
-                                        onChange={val => setFormData({ ...formData, theme: val.target.value })}
-                                    >
-                                        <option value={theme._id}>
+
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="exampleSelect">Theme</Label>
+                                <Input type="select" name="select" id="exampleSelect"
+                                    defaultValue={'degf'}
+                                    onBlur={getOptions}
+                                    onChange={val => setFormData({ ...formData, theme: val.target.value })}
+                                >
+                                    <option value={theme._id}>
+                                        {theme.name}</option>
+                                    {themes.map(theme => {
+
+                                        return <option value={theme._id}>
                                             {theme.name}</option>
-                                        {themes.map(theme => {
-
-                                            return <option value={theme._id}>
-                                                {theme.name}</option>
-                                        })}
+                                    })}
 
 
-                                    </Input>
-                                </FormGroup>
+                                </Input>
+                            </FormGroup>
 
-                            </Col>
 
 
 
 
                             {/* Select participants */}
-                            <Col>
+                            <FormGroup style={{ width: '50%' }}>
                                 <InputLabel id="participants">Participants</InputLabel>
                                 <Select
                                     id='participants'
@@ -205,13 +204,13 @@ function EditSession({ props }) {
                                     isMulti
                                     options={options}
                                     onChange={handleChange} />
-                            </Col>
+                            </FormGroup>
 
 
 
                             {/* Date */}
 
-                            <Col>
+                            <FormGroup style={{ width: '50%' }}>
 
                                 <Label for="exampleDate">Date</Label>
                                 <Input
@@ -223,10 +222,10 @@ function EditSession({ props }) {
                                 />
 
 
-                            </Col>
+                            </FormGroup>
 
 
-                            <Col>
+                            <Col style={{ width: '50%' }}>
 
                                 <Button color='primary' style={{ marginTop: '33px' }}>Submit</Button>
                             </Col>

@@ -34,11 +34,12 @@ import {
     FormGroup,
     Form,
     Input,
-
+    Container,
     InputGroup,
 
     Col,
     Label,
+    CardTitle,
 } from "reactstrap";
 
 
@@ -139,17 +140,14 @@ const EditTheme = ({ props }) => {
 
     return (
         <>
-            <Col lg="5" md="7" style={{ display: 'contents' }}>
-                <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-transparent pb-5">
-                        <div className="text-muted text-center mt-2 mb-3">
-                            <small>Edit Theme</small>
-                        </div>
+            <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
+                <Card className="card-register" >
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Edit Theme</CardTitle>
                     </CardHeader>
-                    <CardBody className="px-lg-5 py-lg-5">
-
-                        <Form role="form" onSubmit={updateTheme}>
-                            <FormGroup className="mb-3">
+                    <CardBody>
+                        <Form className='centerForm' onSubmit={updateTheme}>
+                            <FormGroup className="mb-3" style={{ width: '50%' }}>
                                 <Label for='theme_name'>Name</Label>
 
                                 <InputGroup className="input-group-alternative">
@@ -167,7 +165,7 @@ const EditTheme = ({ props }) => {
 
                             {/* DAYS */}
 
-                            <FormGroup className="mb-3">
+                            <FormGroup className="mb-3" style={{ width: '50%' }}>
                                 <Label for='theme_length'>Days</Label>
                                 <InputGroup className="input-group-alternative">
 
@@ -185,20 +183,24 @@ const EditTheme = ({ props }) => {
 
 
                             {/* Former */}
+                            <FormGroup style={{ width: '50%' }}>
 
-                            <InputLabel id="participants">Formers </InputLabel>
-                            {/* {console.log(formers)} */}
-                            <Select
-                                onFocus={getOptions}
-                                id='participants'
-                                closeMenuOnSelect={false}
-                                components={makeAnimated()}
-                                isMulti={true}
-                                defaultValue={values}
+                                <InputLabel id="participants">Formers </InputLabel>
+                                {/* {console.log(formers)} */}
+                                <Select
+                                    onFocus={getOptions}
+                                    id='participants'
+                                    closeMenuOnSelect={false}
+                                    components={makeAnimated()}
+                                    isMulti={true}
+                                    defaultValue={values}
 
-                                options={options}
-                                onChange={handleChange}
-                            />
+                                    options={options}
+                                    onChange={handleChange}
+                                />
+                            </FormGroup>
+
+
 
 
 
@@ -213,7 +215,7 @@ const EditTheme = ({ props }) => {
                         </Form>
                     </CardBody>
                 </Card>
-            </Col>
+            </Container>
         </>
     );
 };

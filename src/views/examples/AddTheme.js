@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input, Container, CardHeader, CardTitle, Card, CardBody } from 'reactstrap'
 // import CheckboxListFormers from 'components/others/FormersList';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
@@ -133,66 +133,50 @@ function AddTheme() {
 
         < div >
             <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
+                <Card className="card-register" >
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Ajout Theme</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Form className='centerForm' onSubmit={handleSubmit} >
 
-                <Form style={{ alignContent: 'center' }} onSubmit={handleSubmit} >
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="name">Titre</Label>
+                                <Input type="name" name="name" id="name" placeholder="Enter Name"
+                                    onBlur={getOptions}
+                                    color='red    ' onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                            </FormGroup>
 
-                    <FormGroup style={{ width: '50%' }}>
-                        <Label for="name">Name</Label>
-                        <Input type="name" name="name" id="name" placeholder="Enter Name"
-                            onBlur={getOptions}
-                            color='red    ' onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                    </FormGroup>
+                            <FormGroup style={{ width: '50%' }}>
+                                <Label for="days">Jours</Label>
+                                <Input type="number" name="days" id="days" placeholder="Enter days" onChange={e => setFormData({ ...formData, days: e.target.value })} />
+                            </FormGroup>
 
-                    <FormGroup style={{ width: '50%' }}>
-                        <Label for="days">Days</Label>
-                        <Input type="number" name="days" id="days" placeholder="Enter days" onChange={e => setFormData({ ...formData, days: e.target.value })} />
-                    </FormGroup>
+                            {/* {console.log(formers)} */}
+                            <FormGroup style={{ width: '50%' }}>
+                                <InputLabel id="participants">Formmateurs</InputLabel>
+                                <Select
+                                    id='participants'
+                                    closeMenuOnSelect={false}
+                                    components={makeAnimated()}
+                                    isMulti={true}
+                                    // value={formers.map(former => former.name)}
+                                    options={options}
+                                    onChange={handleChange}
+                                />
 
-                    {/* <List dense >
-
-                        {formers.map((former) => {
-                            const Id = former['_id'];
-                            const index = formers.indexOf(former);
-                            return (
-                                <ListItem key={Id} button>
-
-                                    <ListItemText id={Id} primary={` ${former['name']} ${former['lastName']}`} />
-                                    <ListItemSecondaryAction>
-                                        <Checkbox
-                                            edge="end"
-                                            onChange={handleToggle(former)}
-                                            checked={formData['formers'].indexOf(former) !== -1}
-                                            inputProps={{ 'aria-labelledby': Id }}
-                                        />
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            );
-                        })}
-
-
-                    </List> */}
-
-
-                    <InputLabel id="participants">Formers</InputLabel>
-                    {/* {console.log(formers)} */}
-                    <Select
-                        id='participants'
-                        closeMenuOnSelect={false}
-                        components={makeAnimated()}
-                        isMulti={true}
-                        // value={formers.map(former => former.name)}
-                        options={options}
-                        onChange={handleChange}
-                    />
+                            </FormGroup>
 
 
 
 
 
-                    <Button >Submit</Button>
-                </Form>
+                            <Button >Submit</Button>
+                        </Form>
 
+                    </CardBody>
 
+                </Card>
 
             </Container>
         </div >

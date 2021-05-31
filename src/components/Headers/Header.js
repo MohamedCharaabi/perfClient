@@ -24,8 +24,8 @@ import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 const Header = (props) => {
   return (
     <>
-      {window.location.pathname === '/admin/index' ? <AdminNavbar name={props.name} /> : null}
-
+      {/* {window.location.pathname === '/admin/index' ? <AdminNavbar name={props.name} /> : null} */}
+      <AdminNavbar name={props.name} />
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container fluid>
           <div className="header-body">

@@ -7,3 +7,17 @@ input-group,
   margin-bottom: 10px;
   position: relative;
 }
+
+.ajoutCard {
+  background-color: #5e72e4 !important;
+}
+
+.cardTitle {
+  color: aliceblue !important;
+}
+
+.centerForm {
+  display: grid !important;
+  place-items: center !important;
+  /* width: 50%; */
+}

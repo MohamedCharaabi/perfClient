@@ -30,11 +30,12 @@ import {
     FormGroup,
     Form,
     Input,
-
+    Container,
     InputGroup,
 
     Col,
     Label,
+    CardTitle,
 } from "reactstrap";
 
 const EditFormer = ({ props }) => {
@@ -72,18 +73,15 @@ const EditFormer = ({ props }) => {
 
     return (
         <>
-            <Col lg="5" md="7" style={{ display: 'contents' }}>
-                <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-transparent pb-5">
-                        <div className="text-muted text-center mt-2 mb-3">
-                            <small>Edit Former</small>
-                        </div>
+            <Container style={{ marginTop: '33px', justifyItems: 'center' }}>
+                <Card className="card-register" >
+                    <CardHeader className='ajoutCard'>
+                        <CardTitle tag="h2" className='cardTitle'>Edit Formatreur</CardTitle>
                     </CardHeader>
-                    <CardBody className="px-lg-5 py-lg-5">
-
-                        <Form role="form">
-                            <FormGroup className="mb-3">
-                                <Label for='former_name'>Name</Label>
+                    <CardBody>
+                        <Form className='centerForm' role="form">
+                            <FormGroup className="mb-3" style={{ width: '50%' }}>
+                                <Label for='former_name'>Nom</Label>
 
                                 <InputGroup className="input-group-alternative">
 
@@ -100,8 +98,8 @@ const EditFormer = ({ props }) => {
 
                             {/* LastName */}
 
-                            <FormGroup className="mb-3">
-                                <Label for='former_lastname'>lastName</Label>
+                            <FormGroup className="mb-3" style={{ width: '50%' }}>
+                                <Label for='former_lastname'>Prenom</Label>
                                 <InputGroup className="input-group-alternative">
 
                                     <Input
@@ -116,7 +114,7 @@ const EditFormer = ({ props }) => {
 
                             {/* Email */}
 
-                            <FormGroup className="mb-3">
+                            <FormGroup className="mb-3" style={{ width: '50%' }}>
                                 <Label for='former_email'>Email</Label>
                                 <InputGroup className="input-group-alternative">
 
@@ -129,12 +127,6 @@ const EditFormer = ({ props }) => {
                                     />
                                 </InputGroup>
                             </FormGroup>
-
-
-
-
-
-
                             <div className="text-center">
                                 <Button className="my-4" color="primary" type="button" onClick={updateFormer}>
                                     Update
@@ -143,7 +135,7 @@ const EditFormer = ({ props }) => {
                         </Form>
                     </CardBody>
                 </Card>
-            </Col>
+            </Container>
         </>
     );
 };

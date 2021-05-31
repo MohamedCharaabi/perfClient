@@ -46,6 +46,7 @@ import jsPDF from "jspdf";
 import EditSession from "./EditSession";
 import { Download } from "react-feather";
 import certif from 'assets/certificate.png';
+import moment from "moment";
 import('jspdf-autotable');
 
 
@@ -280,7 +281,7 @@ const Session = () => {
                                                     </th>
 
 
-                                                    <td>{session["date"]}  </td>
+                                                    <td>{moment(session.date).format('MMMM Do YYYY, h:mm')}  </td>
                                                     <td>{listParticipants(session['participants']).length}</td>
 
 
