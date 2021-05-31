@@ -90,8 +90,8 @@ const Profile = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="bg-transparent row" style={{ justifyContent: 'space-between' }}>
-                <h3 className="mb-0">Formers</h3>
-                <Link to='AddFormer' ><Button color='primary' >Add Former</Button> </Link>
+                <h3 className="mb-0">Formmateurs</h3>
+                <Link to='AddFormer' ><Button color='primary' >Ajout Formmateur</Button> </Link>
               </CardHeader>
               <CardBody>
                 <Table className="align-items-center table-flush" responsive>
@@ -100,8 +100,8 @@ const Profile = () => {
 
                       <th scope="col"></th>
 
-                      <th scope="col">name</th>
-                      <th scope="col">lastName</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Prenom</th>
                       <th scope="col">email</th>
 
                       <th scope="col" />
@@ -158,7 +158,7 @@ const Profile = () => {
                                   // href="#pablo"
                                   // onClick={edittheme}
                                   >
-                                    Edit
+                                    Editer
                           </DropdownItem>
 
                                 </Link>
@@ -168,7 +168,7 @@ const Profile = () => {
                                     deleteFormer(id)
                                   )}
                                 >
-                                  Remove
+                                  Supprimer
                         </DropdownItem>
 
                               </DropdownMenu>

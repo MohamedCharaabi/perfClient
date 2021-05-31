@@ -107,7 +107,7 @@ const Session = () => {
 
 
 
-
+        let themeTitle = '';
         let names = [];
         let establishment = [];
         let proffesions = [];
@@ -116,13 +116,18 @@ const Session = () => {
         var daysNumber;
 
 
+        daysNumber = themes.find(th => th._id === session['theme'])['days'];
+        console.log(`days ===> ${daysNumber}`);
 
-        themes.map(theme => {
-            if (theme['name'] === session['theme']) {
-                daysNumber = theme['days'];
-            }
-            return null;
-        })
+        themeTitle = themes.find(th => th._id === session.theme).name;
+        console.log(`ThemeName ===> ${themeTitle}`);
+
+        // themes.map(theme => {
+        //     if (theme['name'] === session['theme']) {
+        //         daysNumber = theme['days'];
+        //     }
+        //     return null;
+        // })
 
 
         session['participants'].map(par => {
@@ -176,9 +181,9 @@ const Session = () => {
             body: data2
         };
 
-        doc.text(session['theme'], marginLeft, 40);
+        doc.text(themeTitle, marginLeft, 40);
         doc.autoTable(content);
-        doc.save(`Session-${session['theme']}.pdf`)
+        doc.save(`Session-${themeTitle}.pdf`)
     }
 
     function listParticipants(users) {
@@ -236,7 +241,7 @@ const Session = () => {
                         <Card className="shadow">
                             <CardHeader className="bg-transparent row" style={{ justifyContent: 'space-between' }}>
                                 <h3 className="mb-0">Sessions</h3>
-                                <Link to='AddSession' ><Button color='primary' >Add Session</Button> </Link>
+                                <Link to='AddSession' ><Button color='primary' >Ajout Session</Button> </Link>
                             </CardHeader>
                             <CardBody>
                                 <Table className="align-items-center table-flush" responsive>
@@ -276,7 +281,7 @@ const Session = () => {
 
 
                                                     <td>{session["date"]}  </td>
-                                                    <td>{listParticipants(session['participants'])}</td>
+                                                    <td>{listParticipants(session['participants']).length}</td>
 
 
 
@@ -302,7 +307,7 @@ const Session = () => {
                                                                     <DropdownItem
 
                                                                     >
-                                                                        Edit
+                                                                        Editer
                           </DropdownItem>
 
                                                                 </Link>
@@ -310,7 +315,7 @@ const Session = () => {
 
                                                                     onClick={e => e.preventDefault(deleteSession(id))}
                                                                 >
-                                                                    Remove
+                                                                    Supprimer
                         </DropdownItem>
 
                                                                 <DropdownItem
@@ -319,7 +324,7 @@ const Session = () => {
                                                                         exportPdf(session)
                                                                     }}
                                                                 >
-                                                                    Generate File
+                                                                    Generer Fiche de Presence
                                                                 </DropdownItem>
                                                                 <DropdownItem
                                                                     onClick={(e) => {
@@ -328,7 +333,7 @@ const Session = () => {
                                                                         downloadCertifs(session)
                                                                     }}
                                                                 >
-                                                                    Generate Certificates
+                                                                    Generer Certificates
                                                                 </DropdownItem>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>

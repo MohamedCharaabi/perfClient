@@ -48,6 +48,7 @@ import {
 
 import Header from "components/Headers/Header.js";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
@@ -55,7 +56,9 @@ const Index = (props) => {
   const [user, setUser] = useState({});
   const [statMonth, setStatMonth] = useState([])
   const [statData, setStatData] = useState({})
+  const [topThemeStat, setTopThemeStat] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+  const [themes, setThemes] = useState([])
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
 
@@ -72,34 +75,73 @@ const Index = (props) => {
 
 
   }
-
-  async function getData() {
-    let result = await axios.get('http://localhost:5000/stat', {
+  async function getThemes() {
+    await axios.get('https://cims-server.herokuapp.com/theme', {
       headers: {
         'Content-Type': 'Application/json'
       },
       withCredentials: true
-    });
-    setStatMonth(result.data);
+    }).then(res => setThemes(res.data.data)
+    ).catch(err => alert(`Error ===> ${err}`));
 
-    let stData = {
-      labels: result.data.monthSesion.map(stat => months[parseInt(stat._id)]),
-      datasets: [
-        {
-          label: "Performance",
-          data: result.data.monthSesion.map(stat => stat.nubr),
+  }
+
+
+  async function getData() {
+
+    await axios.get('https://cims-server.herokuapp.com/theme', {
+      headers: {
+        'Content-Type': 'Application/json'
+      },
+      withCredentials: true
+    }).then(async (res) => {
+      const themeResult = res.data.data;
+
+      let result = await axios.get('https://cims-server.herokuapp.com/stat', {
+        headers: {
+          'Content-Type': 'Application/json'
         },
-      ],
-    };
-    setStatData(stData)
-    // console.log(result.data);
-    setIsLoading(false)
+        withCredentials: true
+      });
+      setStatMonth(result.data);
+      console.log(themeResult)
 
+      let chartThemes = result.data.topTheme.map(theme =>
+        themeResult.find((th) => th._id === theme._id).name,
+      );
+
+      console.log(chartThemes)
+      let themeStat = {
+        labels: chartThemes,
+        datasets: [
+          {
+            label: "Sales",
+            data: [6, 5],
+            maxBarThickness: 10,
+          },
+        ],
+      };
+
+      let stData = {
+        labels: result.data.monthSesion.map(stat => months[parseInt(stat._id)]),
+        datasets: [
+          {
+            label: "Performance",
+            data: result.data.monthSesion.map(stat => stat.nubr),
+          },
+        ],
+      };
+      setStatData(stData)
+      setTopThemeStat(themeStat)
+      // console.log(result.data);
+      setIsLoading(false)
+    })
 
   }
 
   useEffect(() => {
-    getUser();
+    getUser()
+    getThemes()
     getData()
   }, [])
 
@@ -119,7 +161,10 @@ const Index = (props) => {
 
 
 
-  if (isLoading) return <h3>Is Loading...</h3>
+  if (isLoading) return <div style={{ height: '100%', width: '100%' }}>
+    <CircularProgress style={{ justifyContent: 'center', alignContent: 'center' }} />
+    <h3>Lodaing</h3>
+  </div>
 
   return (
     <>
@@ -188,9 +233,9 @@ const Index = (props) => {
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Performance
+                      Themes Statistiques
                     </h6>
-                    <h2 className="mb-0">Total orders</h2>
+                    <h2 className="mb-0">Top Themes</h2>
                   </div>
                 </Row>
               </CardHeader>
@@ -198,7 +243,7 @@ const Index = (props) => {
                 {/* Chart */}
                 <div className="chart">
                   <Bar
-                    data={chartExample2.data}
+                    data={topThemeStat}
                     options={chartExample2.options}
                   />
                 </div>

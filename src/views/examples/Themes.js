@@ -94,24 +94,27 @@ const Icons = () => {
 
 
     <>
-      {/* <Header /> */}
+      <Header showHeader={false} />
+      {/* <h1 style={{ marginBottom: '200' }}>
+        THEMEs
+      </h1> */}
       {/* Page content */}
       <Container className="mt--7" fluid >
-        {/* Table */}
+
         <Row>
           <div className="col">
             <Card className="shadow">
               <CardHeader className="bg-transparent row" style={{ justifyContent: 'space-between' }}>
                 <h3 className="mb-0">Themes</h3>
-                <Link to='AddTheme' ><Button color='primary' >Add Theme</Button> </Link>
+                <Link to='AddTheme' ><Button color='primary' >Ajout Theme</Button> </Link>
               </CardHeader>
               <CardBody>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">name</th>
-                      <th scope="col">Days</th>
-                      <th scope="col">Formers</th>
+                      <th scope="col">Titre</th>
+                      <th scope="col">Jours</th>
+                      <th scope="col">Formmateurs</th>
 
                       <th scope="col" />
                     </tr>
@@ -208,7 +211,7 @@ const Icons = () => {
                                   // href="#pablo"
                                   // onClick={edittheme}
                                   >
-                                    Edit
+                                    Editer
                           </DropdownItem>
 
                                 </Link>
@@ -216,7 +219,7 @@ const Icons = () => {
                                   href="#pablo"
                                   onClick={e => e.preventDefault(deleteTheme(id))}
                                 >
-                                  Remove
+                                  Supprimer
                         </DropdownItem>
 
                               </DropdownMenu>

@@ -132,13 +132,13 @@ const Maps = () => {
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">name</th>
-                      <th scope="col">LastName</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Prenom</th>
                       <th scope="col">Email</th>
                       <th scope="col">Proffesion</th>
-                      <th scope="col">Phone</th>
+                      <th scope="col">Telephone</th>
 
-                      <th scope="col">Establishment</th>
+                      <th scope="col">Establisement</th>
                       <th scope="col">Theme</th>
 
                       <th scope="col" />

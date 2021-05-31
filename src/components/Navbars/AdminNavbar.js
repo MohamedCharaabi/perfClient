@@ -54,8 +54,7 @@ const AdminNavbar = (props) => {
       withCredentials: true
     }).then(res => {
       console.log(res.data);
-      // Cookies.remove('jwt');
-      // setLogin(false);
+
 
     }).catch(e => console.log(e.message));
 
@@ -63,9 +62,7 @@ const AdminNavbar = (props) => {
   }
 
 
-  // if (!Cookies.get('user')) {
-  //   return window.location.pathname = '/auth/login';
-  // }
+
 
 
   if (!login) return window.location.pathname = '/auth/login';
